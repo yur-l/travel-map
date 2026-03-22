@@ -20,14 +20,14 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   display:flex;align-items:center;gap:8px;
   padding:8px 14px 6px;color:white;
 }
-#top-nav-title .flag{font-size:20px;}
-#top-nav-title h1{font-size:14px;font-weight:700;}
-#top-nav-title p{font-size:9px;opacity:.8;margin-top:1px;}
+#top-nav-title .flag{font-size:22px;}
+#top-nav-title h1{font-size:16px;font-weight:700;}
+#top-nav-title p{font-size:11px;opacity:.8;margin-top:1px;}
 #mode-tabs{
   display:flex;border-top:1px solid rgba(255,255,255,.2);
 }
 .mode-tab{
-  flex:1;padding:8px 4px;font-size:12px;font-weight:600;
+  flex:1;padding:8px 4px;font-size:14px;font-weight:600;
   color:rgba(255,255,255,.7);background:transparent;border:none;cursor:pointer;
   border-bottom:3px solid transparent;transition:all .15s;
   text-align:center;
@@ -82,11 +82,11 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   margin:8px 0 4px;padding:10px 12px;
   background:#f0f7ff;border-radius:12px;border-left:3px solid #1a73e8;
 }
-.route-banner-title{font-size:11px;font-weight:700;color:#1a73e8;margin-bottom:4px;}
-.route-step{font-size:11px;color:#555;line-height:1.6;display:flex;gap:6px;}
+.route-banner-title{font-size:13px;font-weight:700;color:#1a73e8;margin-bottom:4px;}
+.route-step{font-size:13px;color:#555;line-height:1.6;display:flex;gap:6px;}
 .route-step-icon{flex-shrink:0;width:18px;text-align:center;}
 
-.section-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#aaa;padding:10px 4px 5px;}
+.section-hdr{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#aaa;padding:10px 4px 5px;}
 
 .map-card{
   display:flex;align-items:flex-start;gap:10px;
@@ -96,12 +96,15 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   transition:border-color .15s,box-shadow .15s;
 }
 .map-card.sel{box-shadow:0 2px 12px rgba(0,0,0,.12);}
-.card-emoji{font-size:20px;flex-shrink:0;margin-top:1px;line-height:1;}
+.card-emoji{font-size:22px;flex-shrink:0;margin-top:1px;line-height:1;}
 .card-body{flex:1;min-width:0;}
-.card-name{font-size:13px;font-weight:600;color:#111;line-height:1.3;}
-.card-sub{font-size:10px;color:#999;margin-top:2px;}
-.card-note{font-size:11px;color:#888;margin-top:5px;line-height:1.4;}
-.card-badge{flex-shrink:0;font-size:9px;font-weight:700;padding:3px 7px;border-radius:10px;white-space:nowrap;align-self:flex-start;margin-top:2px;}
+.card-name{font-size:15px;font-weight:600;color:#111;line-height:1.3;}
+.card-sub{font-size:12px;color:#999;margin-top:2px;}
+.card-note{font-size:13px;color:#888;margin-top:5px;line-height:1.4;}
+.card-hours{font-size:11px;color:#1a73e8;margin-top:3px;font-weight:500;}
+.pu-hours{font-size:11px;color:#1a73e8;margin-bottom:4px;font-weight:500;}
+.cl-item-hours{font-size:11px;color:#1a73e8;margin-top:2px;font-weight:500;}
+.card-badge{flex-shrink:0;font-size:11px;font-weight:700;padding:3px 7px;border-radius:10px;white-space:nowrap;align-self:flex-start;margin-top:2px;}
 
 #fab{
   position:fixed;right:14px;bottom:88px;z-index:450;
@@ -119,11 +122,11 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .cl-day-header{
   display:flex;align-items:center;gap:8px;
   padding:10px 14px;border-radius:14px;
-  color:white;font-weight:700;font-size:14px;
+  color:white;font-weight:700;font-size:16px;
   margin-bottom:6px;cursor:pointer;
   box-shadow:0 2px 8px rgba(0,0,0,.12);
 }
-.cl-day-header .cl-day-right{margin-left:auto;font-size:11px;opacity:.85;}
+.cl-day-header .cl-day-right{margin-left:auto;font-size:13px;opacity:.85;}
 .cl-items{display:flex;flex-direction:column;gap:5px;}
 .cl-item{
   display:flex;align-items:center;gap:10px;
@@ -137,14 +140,14 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   width:22px;height:22px;border-radius:6px;
   border:2px solid #ddd;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  font-size:13px;transition:all .15s;background:white;
+  font-size:14px;transition:all .15s;background:white;
 }
 .cl-item.done .cl-checkbox{background:#4caf50;border-color:#4caf50;color:white;}
 .cl-item-body{flex:1;min-width:0;}
-.cl-item-name{font-size:13px;font-weight:600;color:#111;transition:color .15s;}
-.cl-item-sub{font-size:10px;color:#999;margin-top:2px;}
-.cl-item-note{font-size:11px;color:#888;margin-top:3px;line-height:1.4;}
-.cl-item-emoji{font-size:18px;flex-shrink:0;}
+.cl-item-name{font-size:15px;font-weight:600;color:#111;transition:color .15s;}
+.cl-item-sub{font-size:12px;color:#999;margin-top:2px;}
+.cl-item-note{font-size:13px;color:#888;margin-top:3px;line-height:1.4;}
+.cl-item-emoji{font-size:20px;flex-shrink:0;}
 .cl-progress{
   margin:6px 14px 0;height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden;
 }
@@ -154,16 +157,16 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .cl-route{
   margin:4px 0 8px;padding:10px 12px;
   background:#fff8e1;border-radius:12px;border-left:3px solid #f9a825;
-  font-size:11px;color:#555;line-height:1.7;
+  font-size:13px;color:#555;line-height:1.7;
 }
-.cl-route-title{font-weight:700;color:#e65100;margin-bottom:4px;font-size:11px;}
+.cl-route-title{font-weight:700;color:#e65100;margin-bottom:4px;font-size:13px;}
 
 /* ── OPTIONAL VIEW ── */
 #view-optional{background:#f5f6fa;padding:0 0 30px;}
-.opt-header{padding:14px 14px 8px;font-size:16px;font-weight:700;color:#222;}
-.opt-sub{padding:0 14px 10px;font-size:12px;color:#888;line-height:1.5;}
+.opt-header{padding:14px 14px 8px;font-size:18px;font-weight:700;color:#222;}
+.opt-sub{padding:0 14px 10px;font-size:14px;color:#888;line-height:1.5;}
 .opt-section-hdr{
-  font-size:10px;font-weight:700;text-transform:uppercase;
+  font-size:12px;font-weight:700;text-transform:uppercase;
   letter-spacing:.7px;color:#aaa;padding:12px 14px 5px;
 }
 .opt-item{
@@ -174,26 +177,26 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 }
 .opt-item.done{background:#f8faf8;border-color:#c8e6c9;}
 .opt-item.done .opt-name{color:#aaa;text-decoration:line-through;}
-.opt-checkbox{width:22px;height:22px;border-radius:6px;border:2px solid #ddd;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;background:white;transition:all .15s;}
+.opt-checkbox{width:22px;height:22px;border-radius:6px;border:2px solid #ddd;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;background:white;transition:all .15s;}
 .opt-item.done .opt-checkbox{background:#4caf50;border-color:#4caf50;color:white;}
 .opt-body{flex:1;min-width:0;}
-.opt-name{font-size:13px;font-weight:600;color:#111;}
-.opt-meta{font-size:10px;color:#999;margin-top:2px;}
-.opt-note{font-size:11px;color:#888;margin-top:3px;line-height:1.4;}
-.opt-emoji{font-size:18px;flex-shrink:0;}
-.opt-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap;flex-shrink:0;align-self:flex-start;margin-top:3px;}
+.opt-name{font-size:15px;font-weight:600;color:#111;}
+.opt-meta{font-size:12px;color:#999;margin-top:2px;}
+.opt-note{font-size:13px;color:#888;margin-top:3px;line-height:1.4;}
+.opt-emoji{font-size:20px;flex-shrink:0;}
+.opt-badge{font-size:11px;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap;flex-shrink:0;align-self:flex-start;margin-top:3px;}
 
 /* Leaflet popup */
 .leaflet-popup-content-wrapper{border-radius:14px;padding:0;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.22);border:none;}
 .leaflet-popup-content{margin:0;min-width:190px;max-width:250px;}
 .leaflet-popup-tip-container{display:none;}
 .pu-head{padding:11px 13px 8px;color:white;}
-.pu-title{font-size:13px;font-weight:700;line-height:1.3;}
-.pu-sub{font-size:10px;opacity:.85;margin-top:2px;}
+.pu-title{font-size:15px;font-weight:700;line-height:1.3;}
+.pu-sub{font-size:12px;opacity:.85;margin-top:2px;}
 .pu-body{padding:9px 13px 11px;background:white;}
-.pu-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;margin-bottom:5px;}
-.pu-note{font-size:11px;color:#777;line-height:1.4;font-style:italic;}
-.pu-maps{display:block;margin-top:8px;font-size:12px;font-weight:600;color:#1a73e8;text-align:center;padding:6px 8px;background:#f0f6ff;border-radius:8px;text-decoration:none;}
+.pu-badge{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:8px;margin-bottom:5px;}
+.pu-note{font-size:13px;color:#777;line-height:1.4;font-style:italic;}
+.pu-maps{display:block;margin-top:8px;font-size:14px;font-weight:600;color:#1a73e8;text-align:center;padding:6px 8px;background:#f0f6ff;border-radius:8px;text-decoration:none;}
 </style>
 </head>
 <body>
@@ -245,11 +248,10 @@ const DAYS = [
       { icon:"🌙", text:"晚上在西门町范围步行用餐" },
     ],
     places:[
-      { name:"新光三越（寶可夢中心）",   cat:"购物", sub:"信义区", lat:25.0365955, lng:121.5673381, badge:"限量必去！", note:"入住后直冲！约21:30打烊，要快", checklist:true },
-      { name:"阿宗麵綫",                 cat:"美食", sub:"西门",   lat:25.0432921, lng:121.5077098, badge:"清单",      note:"站着吃，随时开放", checklist:true },
-      { name:"梁山泊小龍湯包",           cat:"美食", sub:"西门",   lat:25.0454994, lng:121.5057444, badge:"清单",      note:"周一二四休息，注意！", checklist:true },
-      { name:"先喝道（延平南店）",       cat:"饮料", sub:"西门",   lat:25.0345831, lng:121.5076292, badge:"清单",      note:"人气饮料，顺路带走", checklist:true },
-      { name:"Don Don Donki 西门店",     cat:"购物", sub:"西门",   lat:25.0446124, lng:121.5069329, badge:"24hr",      note:"24小时，日系商品扫货", checklist:true },
+      { name:"新光三越（寶可夢中心）",   cat:"购物", sub:"信义区", lat:25.0365955, lng:121.5673381, badge:"限量必去！", note:"入住后直冲！约21:30打烊，要快", hours:"一–四 11:00–21:30 · 五六 11:00–22:00 · 日 11:00–21:30", checklist:true },
+      { name:"阿宗麵綫",                 cat:"美食", sub:"西门",   lat:25.0432921, lng:121.5077098, badge:"清单",      note:"站着吃，随时开放", hours:"一–四日 07:30–22:30 · 五六 07:30–23:00", checklist:true },
+      { name:"梁山泊小龍湯包",           cat:"美食", sub:"西门",   lat:25.0454994, lng:121.5057444, badge:"清单",      note:"⚠️ 周一、二、四 公休", hours:"三 10:00–15:00, 17:00–21:00 · 五六日 10:00–15:00, 17:00–21:00", checklist:true },
+      { name:"Don Don Donki 西门店",     cat:"购物", sub:"西门",   lat:25.0446124, lng:121.5069329, badge:"24hr",      note:"24小时，日系商品扫货", hours:"24小时营业，全年无休", checklist:true },
     ]
   },
   {
@@ -262,11 +264,10 @@ const DAYS = [
       { icon:"🌙", text:"晚上：搭板南线回西門站，步行15分到寧夏夜市（大同区）或搭公车" },
     ],
     places:[
-      { name:"臺北101購物中心",                   cat:"购物", sub:"信义", lat:25.0341222, lng:121.5640212, badge:"地标",   note:"11:00开门", checklist:true },
-      { name:"新光三越（寶可夢 / 卡普空Pop Up）", cat:"购物", sub:"信义", lat:25.0365955, lng:121.5673381, badge:"复购点", note:"Day1没买到今天补！", checklist:true },
-      { name:"ATT4Fun 信义店",                    cat:"购物", sub:"信义", lat:25.0353558, lng:121.5659995, badge:"4F玩具", note:"4F日本神社风玩具选物", checklist:true },
-      { name:"鼎泰豐（信义店）",                  cat:"推荐餐", sub:"信义", lat:25.0335035, lng:121.5301180, badge:"推荐",   note:"世界级小笼包，排队但值", checklist:true },
-      { name:"寧夏夜市",                          cat:"夜市", sub:"大同", lat:25.0566808, lng:121.5153641, badge:"晚上",   note:"赤丸、宏益水晶餃、金園排骨", checklist:true },
+      { name:"臺北101購物中心",                   cat:"购物", sub:"信义", lat:25.0341222, lng:121.5640212, badge:"地标",   note:"mall内有鼎泰豐等餐厅", hours:"一–四日 11:00–21:30 · 五六 11:00–22:00", checklist:true },
+      { name:"新光三越（寶可夢 / 卡普空Pop Up）", cat:"购物", sub:"信义", lat:25.0365955, lng:121.5673381, badge:"复购点", note:"Day1没买到今天补！", hours:"一–四 11:00–21:30 · 五六 11:00–22:00 · 日 11:00–21:30", checklist:true },
+      { name:"ATT4Fun 信义店",                    cat:"购物", sub:"信义", lat:25.0353558, lng:121.5659995, badge:"4F玩具", note:"4F日本神社风玩具选物", hours:"一–四 11:00–22:00 · 五六 11:00–23:00 · 日 11:00–22:00", checklist:true },
+      { name:"寧夏夜市",                          cat:"夜市", sub:"大同", lat:25.0566808, lng:121.5153641, badge:"晚上",   note:"赤丸、宏益水晶餃、金園排骨", hours:"每天 17:00–23:30", checklist:true },
     ]
   },
   {
@@ -279,15 +280,15 @@ const DAYS = [
       { icon:"🔄", text:"回程：步行或搭公车至西門，晚上在西门享用清单美食" },
     ],
     places:[
-      { name:"萬年大樓",           cat:"购物", sub:"西门", lat:25.0434646, lng:121.5059420, badge:"4-6F",     note:"模型盲盒天堂", checklist:true },
-      { name:"西門紅樓",           cat:"景点", sub:"西门", lat:25.0420139, lng:121.5068592, badge:"周一休",   note:"百年建筑，周边小铺值得逛", checklist:true },
-      { name:"Animate 臺北店",     cat:"购物", sub:"西门", lat:25.0452725, lng:121.5094891, badge:"地下",     note:"动漫周边大店，周末10:00开", checklist:true },
-      { name:"日藥本鋪博物館",     cat:"景点", sub:"西门", lat:25.0457430, lng:121.5069870, badge:"3-4F",     note:"3-4楼有怀旧日式展区", checklist:true },
-      { name:"三创生活（6F）",     cat:"购物", sub:"中正", lat:25.0454978, lng:121.5313187, badge:"高达/壽屋", note:"高達基地、壽屋、微笑社、野獸囯", checklist:true },
-      { name:"金峰鲁肉饭",         cat:"推荐餐", sub:"中正", lat:25.0320911, lng:121.5185362, badge:"推荐",     note:"台北最有名鲁肉饭，周一休！", checklist:true },
-      { name:"永康牛肉麵",         cat:"推荐餐", sub:"中正", lat:25.0329382, lng:121.5281111, badge:"米其林",   note:"红烧牛肉麵必吃", checklist:true },
-      { name:"金園排骨（萬年店）", cat:"美食", sub:"西门", lat:25.0435410, lng:121.5058343, badge:"清单",     note:"萬年大樓B1，直接顺道", checklist:true },
-      { name:"成都楊桃冰",         cat:"饮料", sub:"西门", lat:25.0432343, lng:121.5081692, badge:"清单",     note:"杨桃汁老字号，酸甜解渴", checklist:true },
+      { name:"萬年大樓",           cat:"购物", sub:"西门", lat:25.0434646, lng:121.5059420, badge:"4-6F",     note:"模型盲盒天堂", hours:"一 14:00–22:00 · 二–日 11:30–22:00", checklist:true },
+      { name:"西門紅樓",           cat:"景点", sub:"西门", lat:25.0420139, lng:121.5068592, badge:"周一休",   note:"百年建筑，周边小铺值得逛", hours:"⚠️ 周一公休 · 二–日 11:00–21:00", checklist:true },
+      { name:"Animate 臺北店",     cat:"购物", sub:"西门", lat:25.0452725, lng:121.5094891, badge:"地下",     note:"动漫周边大店", hours:"一–五 12:00–22:00 · 六日 10:00–22:00", checklist:true },
+      { name:"日藥本鋪博物館",     cat:"景点", sub:"西门", lat:25.0457430, lng:121.5069870, badge:"3-4F",     note:"3-4楼有怀旧日式展区", hours:"每天 10:30–22:00", checklist:true },
+      { name:"三创生活（6F）",     cat:"购物", sub:"中正", lat:25.0454978, lng:121.5313187, badge:"高达/壽屋", note:"高達基地、壽屋、微笑社、野獸囯", hours:"一–四日 11:00–21:30 · 五六 11:00–22:00", checklist:true },
+      { name:"金峰鲁肉饭",         cat:"推荐餐", sub:"中正", lat:25.0320911, lng:121.5185362, badge:"推荐",     note:"⚠️ 周一公休", hours:"⚠️ 周一公休 · 二–六 11:00–01:00 · 日 11:00–23:00", checklist:true },
+      { name:"永康牛肉麵",         cat:"推荐餐", sub:"中正", lat:25.0329382, lng:121.5281111, badge:"米其林",   note:"红烧牛肉麵必吃", hours:"每天 11:00–20:30", checklist:true },
+      { name:"金園排骨（萬年店）", cat:"美食", sub:"西门", lat:25.0435410, lng:121.5058343, badge:"清单",     note:"萬年大樓B1，直接顺道", hours:"一–四日 11:30–21:00 · 五六 11:30–21:30", checklist:true },
+      { name:"成都楊桃冰",         cat:"饮料", sub:"西门", lat:25.0432343, lng:121.5081692, badge:"清单",     note:"杨桃汁老字号，酸甜解渴", hours:"一 13:00–22:30 · 二 14:00–22:30 · 三–日 13:00–22:30", checklist:true },
     ]
   },
   {
@@ -303,11 +304,11 @@ const DAYS = [
       { icon:"🔙", text:"回程：淡水信义线往台北，换板南线回西門站" },
     ],
     places:[
-      { name:"國立故宮博物院",      cat:"景点", sub:"士林",   lat:25.1023554, lng:121.5484925, badge:"必去",    note:"9:00开，建议早到，留2-3小时", checklist:true },
-      { name:"士林夜市",            cat:"夜市", sub:"士林",   lat:25.0884972, lng:121.5243504, badge:"晚上",    note:"周六人多，建议8点后去", checklist:true },
-      { name:"Hobby Off",           cat:"购物", sub:"台北站", lat:25.0474322, lng:121.5162386, badge:"清单",    note:"11:00开，二手模型宝库", checklist:true },
-      { name:"大旺小舖",            cat:"购物", sub:"台北站", lat:25.0502965, lng:121.5154642, badge:"清单",    note:"地下室，正午开，miniature", checklist:true },
-      { name:"先喝道 北車京站店",   cat:"饮料", sub:"台北站", lat:25.0493012, lng:121.5171717, badge:"必打卡！", note:"台北站地下B2", checklist:true },
+      { name:"國立故宮博物院",      cat:"景点", sub:"士林",   lat:25.1023554, lng:121.5484925, badge:"必去",    note:"建议早到，留2-3小时", hours:"每天 09:00–17:00（全年无休）", checklist:true },
+      { name:"士林夜市",            cat:"夜市", sub:"士林",   lat:25.0884972, lng:121.5243504, badge:"晚上",    note:"周六人多，建议8点后去", hours:"每天 16:00–00:00", checklist:true },
+      { name:"Hobby Off",           cat:"购物", sub:"台北站", lat:25.0474322, lng:121.5162386, badge:"清单",    note:"二手模型宝库", hours:"每天 11:00–22:00", checklist:true },
+      { name:"大旺小舖",            cat:"购物", sub:"台北站", lat:25.0502965, lng:121.5154642, badge:"清单",    note:"地下室，miniature天堂", hours:"每天 12:00–22:00", checklist:true },
+      { name:"先喝道 北車京站店",   cat:"饮料", sub:"台北站", lat:25.0493012, lng:121.5171717, badge:"必打卡！", note:"台北站地下B2", hours:"一–四日 11:00–21:30 · 五六 11:00–22:00", checklist:true },
     ]
   },
   {
@@ -321,8 +322,8 @@ const DAYS = [
       { icon:"🌙", text:"傍晚留下看灯笼夜景，晚上搭公车回瑞芳，再搭台铁回南港，换板南线回西門" },
     ],
     places:[
-      { name:"九份老街",  cat:"景点", sub:"九份", lat:25.1093, lng:121.8442, badge:"主景点",   note:"周日人多！建议10:00前抵达", checklist:true },
-      { name:"阿妹茶楼",  cat:"推荐餐", sub:"九份", lat:25.1087, lng:121.8441, badge:"灯笼夜景", note:"傍晚留下来看灯笼，最美时段", checklist:true },
+      { name:"九份老街",  cat:"景点", sub:"九份", lat:25.1093, lng:121.8442, badge:"主景点",   note:"⚠️ 周日人多！建议10:00前抵达", hours:"每天 10:00–20:00（各店不一）", checklist:true },
+      { name:"阿妹茶楼",  cat:"推荐餐", sub:"九份", lat:25.1087, lng:121.8441, badge:"灯笼夜景", note:"傍晚留下来看灯笼，最美时段", hours:"每天 09:00–21:30", checklist:true },
     ]
   },
   {
@@ -331,14 +332,14 @@ const DAYS = [
       { icon:"🏠", text:"民宿昆明街160號 出发" },
       { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
       { icon:"🚇", text:"板南线 往新埔方向，板橋站下车（约10分）→ 步行15分到小潘蛋糕坊" },
-      { icon:"🔄", text:"板橋完毕：搭板南线回西门方向，新庄站下车换公车或步行 → IKEA新庄店" },
-      { icon:"🚇", text:"下午：IKEA完毕，搭公车或板南线转松山线 → 松山站，步行约10分到繞河夜市" },
+      { icon:"🔄", text:"板橋完毕：搭板南线往南港方向，在台北车站换松山线，台北小巨蛋站下车 → 步行约5分到 IKEA 台北城市店" },
+      { icon:"🚇", text:"下午：IKEA完毕，步行回小巨蛋站，搭松山线往西門方向，北门站换板南线回西門" },
       { icon:"🔙", text:"回程：松山站搭松山线往西門方向（需在北门站换乘板南线）" },
     ],
     places:[
-      { name:"小潘蛋糕坊（板橋）", cat:"美食", sub:"板橋", lat:25.0154824, lng:121.4559405, badge:"清单", note:"8:00开，凤梨酥早去早买到", checklist:true },
-      { name:"IKEA 新庄店",        cat:"购物", sub:"新庄", lat:25.0413322, lng:121.4649748, badge:"清单", note:"10:00开，城市限定商品", checklist:true },
-      { name:"繞河夜市",           cat:"夜市", sub:"松山", lat:25.0508854, lng:121.5774891, badge:"清单", note:"必吃入口胡椒饼！5:00开", checklist:true },
+      { name:"小潘蛋糕坊（板橋）", cat:"美食", sub:"板橋", lat:25.0154824, lng:121.4559405, badge:"清单", note:"凤梨酥早去早买到", hours:"每天 08:00–20:00", checklist:true },
+      { name:"IKEA 台北城市店（小巨蛋）", cat:"购物", sub:"松山", lat:25.0523441, lng:121.5484703, badge:"清单", note:"城市限定商品，B1入口", hours:"一–四日 10:00–21:30 · 五六 10:00–22:00", checklist:true },
+      { name:"繞河夜市",           cat:"夜市", sub:"松山", lat:25.0508854, lng:121.5774891, badge:"清单", note:"必吃入口胡椒饼！", hours:"每天 17:00–00:00", checklist:true },
     ]
   },
   {
@@ -350,8 +351,8 @@ const DAYS = [
       { icon:"✈️", text:"桃园国际机场，准时离台！" },
     ],
     places:[
-      { name:"西門町（最后扫货）", cat:"购物", sub:"西门", lat:25.044043,  lng:121.5073209, badge:"最后一天", note:"补购伴手礼、清单扫尾", checklist:true },
-      { name:"先喝道（延平南店）", cat:"饮料", sub:"西门", lat:25.0345831, lng:121.5076292, badge:"带走",    note:"最后一杯，飞机前喝掉", checklist:true },
+      { name:"西門町（最后扫货）", cat:"购物", sub:"西门", lat:25.044043,  lng:121.5073209, badge:"最后一天", note:"补购伴手礼、清单扫尾", hours:"各店不一，大多 11:00–22:00", checklist:true },
+      { name:"先喝道（延平南店）", cat:"饮料", sub:"西门", lat:25.0345831, lng:121.5076292, badge:"带走",    note:"最后一杯，飞机前喝掉", hours:"一–五 10:00–21:30 · 六日 11:00–21:30", checklist:true },
     ]
   }
 ];
@@ -485,6 +486,7 @@ function renderMapDay(dayId){
         <div class="card-body">
           <div class="card-name">${p.name}</div>
           <div class="card-sub">${p.cat} · ${p.sub}</div>
+          ${p.hours?`<div class="card-hours">🕐 ${p.hours}</div>`:''}
           ${p.note?`<div class="card-note">${p.note}</div>`:''}
         </div>
         ${p.badge?`<div class="card-badge" style="background:${color}22;color:${color}">${p.badge}</div>`:''}
@@ -498,6 +500,7 @@ function renderMapDay(dayId){
         </div>
         <div class="pu-body">
           ${p.badge?`<span class="pu-badge" style="background:${color}22;color:${color}">${p.badge}</span>`:''}
+          ${p.hours?`<div class="pu-hours">🕐 ${p.hours}</div>`:''}
           ${p.note?`<div class="pu-note">${p.note}</div>`:''}
           <a class="pu-maps" href="${mapsUrl}" target="_blank">📍 在 Google Maps 打开</a>
         </div>
@@ -526,16 +529,19 @@ function renderMapDay(dayId){
 }
 
 // Day tabs
+const DAY_OF_WEEK = ['','Wed','Thu','Fri','Sat','Sun','Mon','Tue'];
 const tabsEl=document.getElementById('day-tabs');
 DAYS.forEach(day=>{
   const btn=document.createElement('button');
   btn.className='day-tab'+(day.id===0?' active':'');
   btn.style.background=day.id===0?day.color:'#eef0f5';
   btn.style.color=day.id===0?'white':day.color;
-  btn.textContent=day.label;
+  btn.dataset.id=day.id;
+  const dow = day.id>0 ? ` (${DAY_OF_WEEK[day.id]})` : '';
+  btn.textContent=day.label+dow;
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.day-tab').forEach(t=>{
-      const dd=DAYS.find(d=>d.label===t.textContent);
+      const dd=DAYS.find(d=>d.id===parseInt(t.dataset.id));
       t.style.background='#eef0f5';t.style.color=dd?dd.color:'#555';
     });
     btn.style.background=day.color;btn.style.color='white';
@@ -593,6 +599,7 @@ function renderChecklist(){
         <div class="cl-item-body">
           <div class="cl-item-name">${p.name}</div>
           <div class="cl-item-sub">${p.cat} · ${p.sub}</div>
+          ${p.hours?`<div class="cl-item-hours">🕐 ${p.hours}</div>`:''}
           ${p.note?`<div class="cl-item-note">${p.note}</div>`:''}
         </div>
       `;
