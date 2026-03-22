@@ -51,15 +51,29 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   background:white;border-radius:18px 18px 0 0;
   box-shadow:0 -4px 24px rgba(0,0,0,.18);
   display:flex;flex-direction:column;
-  height:48px;max-height:calc(100vh - 90px);
+  height:54px;max-height:calc(100vh - 90px);
   overflow:hidden;transition:height .3s cubic-bezier(.4,0,.2,1);
 }
 #sheet.expanded{height:60vh;}
 #sheet-handle{flex-shrink:0;padding:9px 0 0;display:flex;justify-content:center;cursor:pointer;}
 #sheet-handle::before{content:'';width:36px;height:4px;background:#ddd;border-radius:2px;display:block;}
-#day-tabs{flex-shrink:0;display:flex;overflow-x:auto;gap:6px;padding:7px 12px 8px;scrollbar-width:none;}
+#day-tabs{flex-shrink:0;display:flex;overflow-x:auto;gap:6px;padding:7px 12px 10px;scrollbar-width:none;}
 #day-tabs::-webkit-scrollbar{display:none;}
-.day-tab{flex-shrink:0;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:#eef0f5;color:#555;transition:all .15s;white-space:nowrap;}
+.day-tab{flex-shrink:0;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;border:none;cursor:pointer;background:#eef0f5;color:#555;transition:all .15s;white-space:nowrap;}
+/* Move Leaflet attribution to top-right, below header */
+.leaflet-bottom.leaflet-right{
+  transition:none !important;
+  bottom:auto !important;
+  top:88px !important;
+  right:4px !important;
+}
+.leaflet-control-attribution{
+  font-size:9px !important;
+  opacity:0.6;
+  border-radius:6px 0 0 6px !important;
+  padding:2px 5px !important;
+  background:rgba(255,255,255,0.75) !important;
+}
 
 #map-places{flex:1;overflow-y:auto;padding:0 10px 20px;-webkit-overflow-scrolling:touch;}
 
@@ -90,7 +104,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .card-badge{flex-shrink:0;font-size:9px;font-weight:700;padding:3px 7px;border-radius:10px;white-space:nowrap;align-self:flex-start;margin-top:2px;}
 
 #fab{
-  position:fixed;right:14px;bottom:60px;z-index:450;
+  position:fixed;right:14px;bottom:64px;z-index:450;
   width:50px;height:50px;border-radius:50%;
   background:#1a73e8;color:white;border:none;font-size:22px;cursor:pointer;
   box-shadow:0 4px 14px rgba(0,0,0,.28);
