@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🇹🇼 台湾行程</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;}
+
+/* ── NAV TABS (top) ── */
+#top-nav{
+  position:fixed;top:0;left:0;right:0;z-index:600;
+  background:#1a73e8;
+  display:flex;flex-direction:column;
+}
+#top-nav-title{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px 6px;color:white;
+}
+#top-nav-title .flag{font-size:20px;}
+#top-nav-title h1{font-size:14px;font-weight:700;}
+#top-nav-title p{font-size:9px;opacity:.8;margin-top:1px;}
+#mode-tabs{
+  display:flex;border-top:1px solid rgba(255,255,255,.2);
+}
+.mode-tab{
+  flex:1;padding:8px 4px;font-size:12px;font-weight:600;
+  color:rgba(255,255,255,.7);background:transparent;border:none;cursor:pointer;
+  border-bottom:3px solid transparent;transition:all .15s;
+  text-align:center;
+}
+.mode-tab.active{color:white;border-bottom-color:white;}
+
+/* ── VIEWS ── */
+#view-map,#view-checklist,#view-optional{
+  position:fixed;top:82px;left:0;right:0;bottom:0;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  display:none;
+}
+#view-map{overflow:hidden;display:block;}
+
+/* MAP */
+#map{position:absolute;top:0;left:0;right:0;bottom:0;}
+
+/* bottom sheet */
+#sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:400;
+  background:white;border-radius:18px 18px 0 0;
+  box-shadow:0 -4px 24px rgba(0,0,0,.18);
+  display:flex;flex-direction:column;
+  height:48px;max-height:calc(100vh - 90px);
+  overflow:hidden;transition:height .3s cubic-bezier(.4,0,.2,1);
+}
+#sheet.expanded{height:60vh;}
+#sheet-handle{flex-shrink:0;padding:9px 0 0;display:flex;justify-content:center;cursor:pointer;}
+#sheet-handle::before{content:'';width:36px;height:4px;background:#ddd;border-radius:2px;display:block;}
+#day-tabs{flex-shrink:0;display:flex;overflow-x:auto;gap:6px;padding:7px 12px 8px;scrollbar-width:none;}
+#day-tabs::-webkit-scrollbar{display:none;}
+.day-tab{flex-shrink:0;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:#eef0f5;color:#555;transition:all .15s;white-space:nowrap;}
+
+#map-places{flex:1;overflow-y:auto;padding:0 10px 20px;-webkit-overflow-scrolling:touch;}
+
+/* Route banner */
+.route-banner{
+  margin:8px 0 4px;padding:10px 12px;
+  background:#f0f7ff;border-radius:12px;border-left:3px solid #1a73e8;
+}
+.route-banner-title{font-size:11px;font-weight:700;color:#1a73e8;margin-bottom:4px;}
+.route-step{font-size:11px;color:#555;line-height:1.6;display:flex;gap:6px;}
+.route-step-icon{flex-shrink:0;width:18px;text-align:center;}
+
+.section-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#aaa;padding:10px 4px 5px;}
+
+.map-card{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:11px 12px;margin-bottom:6px;
+  border-radius:12px;border:1.5px solid #eee;
+  background:white;cursor:pointer;
+  transition:border-color .15s,box-shadow .15s;
+}
+.map-card.sel{box-shadow:0 2px 12px rgba(0,0,0,.12);}
+.card-emoji{font-size:20px;flex-shrink:0;margin-top:1px;line-height:1;}
+.card-body{flex:1;min-width:0;}
+.card-name{font-size:13px;font-weight:600;color:#111;line-height:1.3;}
+.card-sub{font-size:10px;color:#999;margin-top:2px;}
+.card-note{font-size:11px;color:#888;margin-top:5px;line-height:1.4;}
+.card-badge{flex-shrink:0;font-size:9px;font-weight:700;padding:3px 7px;border-radius:10px;white-space:nowrap;align-self:flex-start;margin-top:2px;}
+
+#fab{
+  position:fixed;right:14px;bottom:60px;z-index:450;
+  width:50px;height:50px;border-radius:50%;
+  background:#1a73e8;color:white;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.28);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .15s;
+}
+#fab:active{transform:scale(.9);}
+
+/* ── CHECKLIST VIEW ── */
+#view-checklist{background:#f5f6fa;padding:0 0 30px;}
+.cl-day{margin:12px 10px 0;}
+.cl-day-header{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 14px;border-radius:14px;
+  color:white;font-weight:700;font-size:14px;
+  margin-bottom:6px;cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+.cl-day-header .cl-day-right{margin-left:auto;font-size:11px;opacity:.85;}
+.cl-items{display:flex;flex-direction:column;gap:5px;}
+.cl-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:12px;
+  background:white;border:1.5px solid #eee;
+  cursor:pointer;transition:all .15s;
+}
+.cl-item.done{background:#f8faf8;border-color:#c8e6c9;}
+.cl-item.done .cl-item-name{color:#aaa;text-decoration:line-through;}
+.cl-checkbox{
+  width:22px;height:22px;border-radius:6px;
+  border:2px solid #ddd;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;transition:all .15s;background:white;
+}
+.cl-item.done .cl-checkbox{background:#4caf50;border-color:#4caf50;color:white;}
+.cl-item-body{flex:1;min-width:0;}
+.cl-item-name{font-size:13px;font-weight:600;color:#111;transition:color .15s;}
+.cl-item-sub{font-size:10px;color:#999;margin-top:2px;}
+.cl-item-note{font-size:11px;color:#888;margin-top:3px;line-height:1.4;}
+.cl-item-emoji{font-size:18px;flex-shrink:0;}
+.cl-progress{
+  margin:6px 14px 0;height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden;
+}
+.cl-progress-bar{height:100%;border-radius:2px;transition:width .4s;}
+
+/* route inside checklist */
+.cl-route{
+  margin:4px 0 8px;padding:10px 12px;
+  background:#fff8e1;border-radius:12px;border-left:3px solid #f9a825;
+  font-size:11px;color:#555;line-height:1.7;
+}
+.cl-route-title{font-weight:700;color:#e65100;margin-bottom:4px;font-size:11px;}
+
+/* ── OPTIONAL VIEW ── */
+#view-optional{background:#f5f6fa;padding:0 0 30px;}
+.opt-header{padding:14px 14px 8px;font-size:16px;font-weight:700;color:#222;}
+.opt-sub{padding:0 14px 10px;font-size:12px;color:#888;line-height:1.5;}
+.opt-section-hdr{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.7px;color:#aaa;padding:12px 14px 5px;
+}
+.opt-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;margin:0 10px 5px;
+  border-radius:12px;background:white;
+  border:1.5px solid #eee;cursor:pointer;transition:all .15s;
+}
+.opt-item.done{background:#f8faf8;border-color:#c8e6c9;}
+.opt-item.done .opt-name{color:#aaa;text-decoration:line-through;}
+.opt-checkbox{width:22px;height:22px;border-radius:6px;border:2px solid #ddd;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;background:white;transition:all .15s;}
+.opt-item.done .opt-checkbox{background:#4caf50;border-color:#4caf50;color:white;}
+.opt-body{flex:1;min-width:0;}
+.opt-name{font-size:13px;font-weight:600;color:#111;}
+.opt-meta{font-size:10px;color:#999;margin-top:2px;}
+.opt-note{font-size:11px;color:#888;margin-top:3px;line-height:1.4;}
+.opt-emoji{font-size:18px;flex-shrink:0;}
+.opt-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap;flex-shrink:0;align-self:flex-start;margin-top:3px;}
+
+/* Leaflet popup */
+.leaflet-popup-content-wrapper{border-radius:14px;padding:0;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.22);border:none;}
+.leaflet-popup-content{margin:0;min-width:190px;max-width:250px;}
+.leaflet-popup-tip-container{display:none;}
+.pu-head{padding:11px 13px 8px;color:white;}
+.pu-title{font-size:13px;font-weight:700;line-height:1.3;}
+.pu-sub{font-size:10px;opacity:.85;margin-top:2px;}
+.pu-body{padding:9px 13px 11px;background:white;}
+.pu-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;margin-bottom:5px;}
+.pu-note{font-size:11px;color:#777;line-height:1.4;font-style:italic;}
+.pu-maps{display:block;margin-top:8px;font-size:12px;font-weight:600;color:#1a73e8;text-align:center;padding:6px 8px;background:#f0f6ff;border-radius:8px;text-decoration:none;}
+</style>
+</head>
+<body>
+
+<div id="top-nav">
+  <div id="top-nav-title">
+    <div class="flag">🇹🇼</div>
+    <div>
+      <h1>台湾行程 · 昆明街160號出发</h1>
+      <p>3/25–3/31 · 点击标记查看路线与详情</p>
+    </div>
+  </div>
+  <div id="mode-tabs">
+    <button class="mode-tab active" onclick="switchMode('map')">🗺️ 地图</button>
+    <button class="mode-tab" onclick="switchMode('checklist')">✅ 行程清单</button>
+    <button class="mode-tab" onclick="switchMode('optional')">🍴 自选美食</button>
+  </div>
+</div>
+
+<div id="view-map">
+  <div id="map"></div>
+  <div id="sheet">
+    <div id="sheet-handle"></div>
+    <div id="day-tabs"></div>
+    <div id="map-places"></div>
+  </div>
+  <button id="fab">☰</button>
+</div>
+
+<div id="view-checklist"></div>
+<div id="view-optional"></div>
+
+<script>
+/* ════════════════════════════════════════
+   DATA
+════════════════════════════════════════ */
+const HOME = { name:"民宿（昆明街160號）", lat:25.0435, lng:121.5060 };
+
+const DAYS = [
+  { id:0, label:"全部", color:"#555", title:"所有地点", places:[] },
+  {
+    id:1, label:"Day 1", color:"#e53935", title:"3/25 抵台·寶可夢·西门",
+    route:[
+      { icon:"🏠", text:"民宿昆明街160號 出发" },
+      { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
+      { icon:"🚇", text:"板南线 往南港方向，市政府站下车（约15分）" },
+      { icon:"🚶", text:"步行约10分 → 新光三越寶可夢中心" },
+      { icon:"🔄", text:"购物完毕，搭原路板南线回西門站，步行返回民宿" },
+      { icon:"🌙", text:"晚上在西门町范围步行用餐" },
+    ],
+    places:[
+      { name:"新光三越（寶可夢中心）",   cat:"购物", sub:"信义区", lat:25.0365955, lng:121.5673381, badge:"限量必去！", note:"入住后直冲！约21:30打烊，要快", checklist:true },
+      { name:"阿宗麵綫",                 cat:"美食", sub:"西门",   lat:25.0432921, lng:121.5077098, badge:"清单",      note:"站着吃，随时开放", checklist:true },
+      { name:"梁山泊小龍湯包",           cat:"美食", sub:"西门",   lat:25.0454994, lng:121.5057444, badge:"清单",      note:"周一二四休息，注意！", checklist:true },
+      { name:"先喝道（延平南店）",       cat:"饮料", sub:"西门",   lat:25.0345831, lng:121.5076292, badge:"清单",      note:"人气饮料，顺路带走", checklist:true },
+      { name:"Don Don Donki 西门店",     cat:"购物", sub:"西门",   lat:25.0446124, lng:121.5069329, badge:"24hr",      note:"24小时，日系商品扫货", checklist:true },
+    ]
+  },
+  {
+    id:2, label:"Day 2", color:"#e67e22", title:"3/26 信义区",
+    route:[
+      { icon:"🏠", text:"民宿昆明街160號 出发" },
+      { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
+      { icon:"🚇", text:"板南线 往南港方向，市政府站下车（约15分）" },
+      { icon:"🚶", text:"步行约8分 → 台北101 / ATT4Fun / 新光三越区域" },
+      { icon:"🌙", text:"晚上：搭板南线回西門站，步行15分到寧夏夜市（大同区）或搭公车" },
+    ],
+    places:[
+      { name:"臺北101購物中心",                   cat:"购物", sub:"信义", lat:25.0341222, lng:121.5640212, badge:"地标",   note:"11:00开门", checklist:true },
+      { name:"新光三越（寶可夢 / 卡普空Pop Up）", cat:"购物", sub:"信义", lat:25.0365955, lng:121.5673381, badge:"复购点", note:"Day1没买到今天补！", checklist:true },
+      { name:"ATT4Fun 信义店",                    cat:"购物", sub:"信义", lat:25.0353558, lng:121.5659995, badge:"4F玩具", note:"4F日本神社风玩具选物", checklist:true },
+      { name:"鼎泰豐（信义店）",                  cat:"推荐餐", sub:"信义", lat:25.0335035, lng:121.5301180, badge:"推荐",   note:"世界级小笼包，排队但值", checklist:true },
+      { name:"寧夏夜市",                          cat:"夜市", sub:"大同", lat:25.0566808, lng:121.5153641, badge:"晚上",   note:"赤丸、宏益水晶餃、金園排骨", checklist:true },
+    ]
+  },
+  {
+    id:3, label:"Day 3", color:"#27ae60", title:"3/27 西门+中正",
+    route:[
+      { icon:"🏠", text:"民宿昆明街160號 出发（步行即达西门区域）" },
+      { icon:"🚶", text:"步行约5分 → 萬年大樓 / Animate / 西門紅樓" },
+      { icon:"🚇", text:"下午：步行至西門站，板南线往南港方向，台大医院站下车（约5分）" },
+      { icon:"🚶", text:"步行约8分 → 三创生活（中正区）" },
+      { icon:"🔄", text:"回程：步行或搭公车至西門，晚上在西门享用清单美食" },
+    ],
+    places:[
+      { name:"萬年大樓",           cat:"购物", sub:"西门", lat:25.0434646, lng:121.5059420, badge:"4-6F",     note:"模型盲盒天堂", checklist:true },
+      { name:"西門紅樓",           cat:"景点", sub:"西门", lat:25.0420139, lng:121.5068592, badge:"周一休",   note:"百年建筑，周边小铺值得逛", checklist:true },
+      { name:"Animate 臺北店",     cat:"购物", sub:"西门", lat:25.0452725, lng:121.5094891, badge:"地下",     note:"动漫周边大店，周末10:00开", checklist:true },
+      { name:"日藥本鋪博物館",     cat:"景点", sub:"西门", lat:25.0457430, lng:121.5069870, badge:"3-4F",     note:"3-4楼有怀旧日式展区", checklist:true },
+      { name:"三创生活（6F）",     cat:"购物", sub:"中正", lat:25.0454978, lng:121.5313187, badge:"高达/壽屋", note:"高達基地、壽屋、微笑社、野獸囯", checklist:true },
+      { name:"金峰鲁肉饭",         cat:"推荐餐", sub:"中正", lat:25.0320911, lng:121.5185362, badge:"推荐",     note:"台北最有名鲁肉饭，周一休！", checklist:true },
+      { name:"永康牛肉麵",         cat:"推荐餐", sub:"中正", lat:25.0329382, lng:121.5281111, badge:"米其林",   note:"红烧牛肉麵必吃", checklist:true },
+      { name:"金園排骨（萬年店）", cat:"美食", sub:"西门", lat:25.0435410, lng:121.5058343, badge:"清单",     note:"萬年大樓B1，直接顺道", checklist:true },
+      { name:"成都楊桃冰",         cat:"饮料", sub:"西门", lat:25.0432343, lng:121.5081692, badge:"清单",     note:"杨桃汁老字号，酸甜解渴", checklist:true },
+    ]
+  },
+  {
+    id:4, label:"Day 4", color:"#8e44ad", title:"3/28 士林+台北站",
+    route:[
+      { icon:"🏠", text:"民宿昆明街160號 出发" },
+      { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
+      { icon:"🚇", text:"板南线 往新埔方向，台大医院站换淡水信义线，往淡水方向，剑潭站下车（约30分）" },
+      { icon:"🚌", text:"转乘公车 红30 → 故宫博物院（约15分）" },
+      { icon:"🔄", text:"下午：原路回剑潭，搭淡水信义线往台北车站，换板南线往南港方向，台北车站下车" },
+      { icon:"🚶", text:"步行至Hobby Off / 大旺小舖 / 先喝道北車店（台北站地下街范围）" },
+      { icon:"🚇", text:"晚上：士林夜市，搭淡水信义线回剑潭/士林站，步行约10分" },
+      { icon:"🔙", text:"回程：淡水信义线往台北，换板南线回西門站" },
+    ],
+    places:[
+      { name:"國立故宮博物院",      cat:"景点", sub:"士林",   lat:25.1023554, lng:121.5484925, badge:"必去",    note:"9:00开，建议早到，留2-3小时", checklist:true },
+      { name:"士林夜市",            cat:"夜市", sub:"士林",   lat:25.0884972, lng:121.5243504, badge:"晚上",    note:"周六人多，建议8点后去", checklist:true },
+      { name:"Hobby Off",           cat:"购物", sub:"台北站", lat:25.0474322, lng:121.5162386, badge:"清单",    note:"11:00开，二手模型宝库", checklist:true },
+      { name:"大旺小舖",            cat:"购物", sub:"台北站", lat:25.0502965, lng:121.5154642, badge:"清单",    note:"地下室，正午开，miniature", checklist:true },
+      { name:"先喝道 北車京站店",   cat:"饮料", sub:"台北站", lat:25.0493012, lng:121.5171717, badge:"必打卡！", note:"台北站地下B2", checklist:true },
+    ]
+  },
+  {
+    id:5, label:"Day 5", color:"#16a085", title:"3/29 九份",
+    route:[
+      { icon:"🏠", text:"民宿昆明街160號 出发（建议早出发）" },
+      { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
+      { icon:"🚇", text:"板南线 往南港方向，终点南港站换台铁/区间车，往瑞芳站（约40分）" },
+      { icon:"🚌", text:"瑞芳站转乘829或825公车 → 九份老街（约30分，班次较少建议等车或打车）" },
+      { icon:"💡", text:"或直接搭计程车，瑞芳站至九份约NT$200" },
+      { icon:"🌙", text:"傍晚留下看灯笼夜景，晚上搭公车回瑞芳，再搭台铁回南港，换板南线回西門" },
+    ],
+    places:[
+      { name:"九份老街",  cat:"景点", sub:"九份", lat:25.1093, lng:121.8442, badge:"主景点",   note:"周日人多！建议10:00前抵达", checklist:true },
+      { name:"阿妹茶楼",  cat:"推荐餐", sub:"九份", lat:25.1087, lng:121.8441, badge:"灯笼夜景", note:"傍晚留下来看灯笼，最美时段", checklist:true },
+    ]
+  },
+  {
+    id:6, label:"Day 6", color:"#2980b9", title:"3/30 板橋+松山",
+    route:[
+      { icon:"🏠", text:"民宿昆明街160號 出发" },
+      { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
+      { icon:"🚇", text:"板南线 往新埔方向，板橋站下车（约10分）→ 步行15分到小潘蛋糕坊" },
+      { icon:"🔄", text:"板橋完毕：搭板南线回西门方向，新庄站下车换公车或步行 → IKEA新庄店" },
+      { icon:"🚇", text:"下午：IKEA完毕，搭公车或板南线转松山线 → 松山站，步行约10分到繞河夜市" },
+      { icon:"🔙", text:"回程：松山站搭松山线往西門方向（需在北门站换乘板南线）" },
+    ],
+    places:[
+      { name:"小潘蛋糕坊（板橋）", cat:"美食", sub:"板橋", lat:25.0154824, lng:121.4559405, badge:"清单", note:"8:00开，凤梨酥早去早买到", checklist:true },
+      { name:"IKEA 新庄店",        cat:"购物", sub:"新庄", lat:25.0413322, lng:121.4649748, badge:"清单", note:"10:00开，城市限定商品", checklist:true },
+      { name:"繞河夜市",           cat:"夜市", sub:"松山", lat:25.0508854, lng:121.5774891, badge:"清单", note:"必吃入口胡椒饼！5:00开", checklist:true },
+    ]
+  },
+  {
+    id:7, label:"Day 7", color:"#7f8c8d", title:"3/31 回国收尾",
+    route:[
+      { icon:"🏠", text:"民宿昆明街160號 出发，西门周边最后扫尾" },
+      { icon:"🚶", text:"步行即达西门町各店" },
+      { icon:"🚇", text:"前往机场：西門站→板南线→台北车站→桃园机场捷运（快速班次约35分）" },
+      { icon:"✈️", text:"桃园国际机场，准时离台！" },
+    ],
+    places:[
+      { name:"西門町（最后扫货）", cat:"购物", sub:"西门", lat:25.044043,  lng:121.5073209, badge:"最后一天", note:"补购伴手礼、清单扫尾", checklist:true },
+      { name:"先喝道（延平南店）", cat:"饮料", sub:"西门", lat:25.0345831, lng:121.5076292, badge:"带走",    note:"最后一杯，飞机前喝掉", checklist:true },
+    ]
+  }
+];
+
+// optional food list
+const OPTIONAL = [
+  // 用户清单（西门/全区域）
+  { name:"西門那煎銅鑼燒", area:"西门", note:"西门名物，铜锣烧现烤", tag:"用户清单" },
+  { name:"萬國滷味",        area:"西门", note:"卤味种类多，宵夜首选", tag:"用户清单" },
+  { name:"萬花小米蛋餅",    area:"西门", note:"早餐/早午餐必吃蛋饼", tag:"用户清单" },
+  { name:"五十嵐",          area:"西门/全区", note:"台湾连锁茶饮，到处有", tag:"用户清单" },
+  { name:"台灣鹽酥鷄 西門", area:"西门", note:"现炸盐酥鸡，夜宵神器", tag:"用户清单" },
+  { name:"赤丸",            area:"寧夏夜市", note:"肉圆 / 赤肉羹名摊", tag:"用户清单" },
+  { name:"宏益水晶餃",      area:"寧夏夜市", note:"Q弹水晶饺，皮薄馅鲜", tag:"用户清单" },
+  { name:"蘋果鷄鹽酥鷄 新北板橋", area:"板橋", note:"板桥人气盐酥鸡", tag:"用户清单" },
+  // 西门推荐
+  { name:"峰圓甜不辣",      area:"西门", note:"老牌关东煮，汤头浓郁", tag:"西门推荐" },
+  { name:"老天禄滷味",      area:"西门", note:"老字号卤味，人气极旺", tag:"西门推荐" },
+  { name:"咔滋脆皮鷄排",    area:"西门", note:"现炸大鸡排，酥脆多汁", tag:"西门推荐" },
+  { name:"洪瑞珍三明治",    area:"西门", note:"台式奶油三明治，经典简单", tag:"西门推荐" },
+  { name:"蜂大咖啡",        area:"西门", note:"老台北咖啡馆，台式蛋糕配咖啡", tag:"西门推荐" },
+  { name:"丸林鲁肉饭",      area:"西门附近", note:"台湾经典鲁肉饭", tag:"西门推荐" },
+  // 信义推荐
+  { name:"Ice Monster 芒果冰", area:"信义", note:"芒果雪花冰名店", tag:"信义推荐" },
+  { name:"欣叶台菜（信义）",   area:"信义", note:"台湾传统菜，适合正餐", tag:"信义推荐" },
+  { name:"犁记饼店",           area:"信义", note:"古早味糕饼，可顺购伴手礼", tag:"信义推荐" },
+  // 中正推荐
+  { name:"杭州小笼湯包",    area:"中正", note:"平价小笼包，皮薄汤多", tag:"中正推荐" },
+  { name:"师大夜市",        area:"大安", note:"文青风夜市，宵夜好去处", tag:"中正/大安推荐" },
+  { name:"通化夜市",        area:"大安", note:"距中正不远，宵夜选择", tag:"中正/大安推荐" },
+  // 士林推荐
+  { name:"故宮晶華",        area:"士林", note:"故宫内高档台菜，适合午餐", tag:"士林推荐" },
+  { name:"基河路麻辣鍋",    area:"士林", note:"士林本地人爱去的麻辣锅", tag:"士林推荐" },
+  { name:"文林路排骨饭",    area:"士林", note:"道地台湾卤排骨饭，实惠", tag:"士林推荐" },
+  // 板橋推荐
+  { name:"阿婆寿司",        area:"板橋", note:"老字号平价寿司，新鲜实惠", tag:"板橋推荐" },
+  { name:"江子翠排骨酥麵",  area:"板橋", note:"板桥本地人常去，汤头鲜甜", tag:"板橋推荐" },
+  { name:"南雅夜市 / 湳雅夜市", area:"板橋", note:"板桥在地夜市，小吃密度高", tag:"板橋推荐" },
+  // 松山推荐
+  { name:"繞河街胡椒饼",    area:"松山", note:"现烤胡椒猪肉饼，排队也值", tag:"松山推荐" },
+  { name:"富锦街咖啡区",    area:"松山", note:"文青咖啡街，下午茶好去处", tag:"松山推荐" },
+];
+
+const CAT_EMOJI = { "美食":"🍜","饮料":"🧃","购物":"🛍️","景点":"📍","夜市":"🌙","推荐餐":"⭐" };
+DAYS[0].places = DAYS.slice(1).flatMap(d => d.places.map(p => ({...p,_day:d})));
+
+/* ════════════════════════════════════════
+   STORAGE (localStorage)
+════════════════════════════════════════ */
+function loadChecked(ns){ try{ return JSON.parse(localStorage.getItem(ns)||'{}'); }catch(e){ return {}; } }
+function saveChecked(ns,obj){ try{ localStorage.setItem(ns,JSON.stringify(obj)); }catch(e){} }
+
+let clChecked = loadChecked('cl');
+let optChecked = loadChecked('opt');
+
+/* ════════════════════════════════════════
+   MAP
+════════════════════════════════════════ */
+const map = L.map('map',{center:[25.05,121.54],zoom:13});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
+
+// Home marker
+const homeIcon = L.divIcon({
+  className:'',
+  html:`<div style="background:#e53935;width:36px;height:36px;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:18px">🏠</div>`,
+  iconSize:[36,36],iconAnchor:[18,18],popupAnchor:[0,-20]
+});
+L.marker([HOME.lat,HOME.lng],{icon:homeIcon,zIndexOffset:1000})
+  .addTo(map)
+  .bindPopup(`<div class="pu-head" style="background:#e53935"><div class="pu-title">🏠 民宿（起点）</div><div class="pu-sub">昆明街160號</div></div><div class="pu-body"><div class="pu-note">每天行程从这里出发</div><a class="pu-maps" href="https://maps.google.com/?q=${HOME.lat},${HOME.lng}" target="_blank">📍 在 Google Maps 打开</a></div>`,{maxWidth:240});
+
+function makeIcon(color,emoji){
+  return L.divIcon({
+    className:'',
+    html:`<div style="background:${color};width:36px;height:36px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:16px;line-height:1">${emoji}</span></div>`,
+    iconSize:[36,36],iconAnchor:[18,36],popupAnchor:[0,-38]
+  });
+}
+
+let mapMarkers=[],activeMapCard=null;
+const sheet=document.getElementById('sheet');
+const fab=document.getElementById('fab');
+let sheetOpen=false;
+
+function setSheet(open){
+  sheetOpen=open;
+  sheet.classList.toggle('expanded',open);
+  fab.textContent=open?'🗺️':'☰';
+}
+document.getElementById('sheet-handle').addEventListener('click',()=>setSheet(!sheetOpen));
+fab.addEventListener('click',()=>setSheet(!sheetOpen));
+
+function clearMapMarkers(){ mapMarkers.forEach(m=>map.removeLayer(m)); mapMarkers=[]; }
+
+function renderMapDay(dayId){
+  clearMapMarkers();
+  if(activeMapCard){ activeMapCard.style.borderColor='#eee'; activeMapCard.classList.remove('sel'); activeMapCard=null; }
+  const day=DAYS.find(d=>d.id===dayId);
+  const list=document.getElementById('map-places');
+  list.innerHTML='';
+
+  // Route banner
+  if(dayId!==0 && day.route){
+    const rb=document.createElement('div');
+    rb.className='route-banner';
+    rb.innerHTML=`<div class="route-banner-title">🚇 交通路线（从民宿出发）</div>`+
+      day.route.map(r=>`<div class="route-step"><span class="route-step-icon">${r.icon}</span><span>${r.text}</span></div>`).join('');
+    list.appendChild(rb);
+  }
+
+  const groups={};
+  day.places.forEach(p=>{
+    const d=p._day||day;
+    const key=dayId===0?`${d.label} · ${d.title}`:p.cat;
+    (groups[key]=groups[key]||[]).push({...p,_day:d});
+  });
+
+  Object.entries(groups).forEach(([grp,places])=>{
+    const hdr=document.createElement('div');
+    hdr.className='section-hdr';hdr.textContent=grp;
+    list.appendChild(hdr);
+    places.forEach(p=>{
+      const d=p._day||day;
+      const color=d.color||day.color;
+      const emoji=CAT_EMOJI[p.cat]||'📍';
+      const card=document.createElement('div');
+      card.className='map-card';
+      card.style.borderColor='#eee';
+      card.innerHTML=`
+        <div class="card-emoji">${emoji}</div>
+        <div class="card-body">
+          <div class="card-name">${p.name}</div>
+          <div class="card-sub">${p.cat} · ${p.sub}</div>
+          ${p.note?`<div class="card-note">${p.note}</div>`:''}
+        </div>
+        ${p.badge?`<div class="card-badge" style="background:${color}22;color:${color}">${p.badge}</div>`:''}
+      `;
+      const marker=L.marker([p.lat,p.lng],{icon:makeIcon(color,emoji)}).addTo(map);
+      const mapsUrl=`https://maps.google.com/?q=${p.lat},${p.lng}`;
+      marker.bindPopup(`
+        <div class="pu-head" style="background:${color}">
+          <div class="pu-title">${emoji} ${p.name}</div>
+          <div class="pu-sub">${dayId===0?(d.label+' · '+d.title):(p.cat+' · '+p.sub)}</div>
+        </div>
+        <div class="pu-body">
+          ${p.badge?`<span class="pu-badge" style="background:${color}22;color:${color}">${p.badge}</span>`:''}
+          ${p.note?`<div class="pu-note">${p.note}</div>`:''}
+          <a class="pu-maps" href="${mapsUrl}" target="_blank">📍 在 Google Maps 打开</a>
+        </div>
+      `,{maxWidth:250,minWidth:200});
+
+      card.addEventListener('click',()=>{
+        if(activeMapCard){activeMapCard.style.borderColor='#eee';activeMapCard.classList.remove('sel');}
+        card.style.borderColor=color;card.classList.add('sel');activeMapCard=card;
+        map.setView([p.lat,p.lng],16,{animate:true});marker.openPopup();
+        setSheet(false);
+        setTimeout(()=>card.scrollIntoView({block:'nearest',behavior:'smooth'}),350);
+      });
+      marker.on('click',()=>{
+        if(activeMapCard){activeMapCard.style.borderColor='#eee';activeMapCard.classList.remove('sel');}
+        card.style.borderColor=color;card.classList.add('sel');activeMapCard=card;
+        setSheet(true);
+        setTimeout(()=>card.scrollIntoView({block:'nearest',behavior:'smooth'}),350);
+      });
+      list.appendChild(card);
+      mapMarkers.push(marker);
+    });
+  });
+
+  const allPts=[{lat:HOME.lat,lng:HOME.lng},...mapMarkers.map(m=>m.getLatLng())];
+  if(allPts.length>1) map.fitBounds(L.latLngBounds(allPts.map(p=>[p.lat,p.lng])),{padding:[50,50]});
+}
+
+// Day tabs
+const tabsEl=document.getElementById('day-tabs');
+DAYS.forEach(day=>{
+  const btn=document.createElement('button');
+  btn.className='day-tab'+(day.id===0?' active':'');
+  btn.style.background=day.id===0?day.color:'#eef0f5';
+  btn.style.color=day.id===0?'white':day.color;
+  btn.textContent=day.label;
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.day-tab').forEach(t=>{
+      const dd=DAYS.find(d=>d.label===t.textContent);
+      t.style.background='#eef0f5';t.style.color=dd?dd.color:'#555';
+    });
+    btn.style.background=day.color;btn.style.color='white';
+    renderMapDay(day.id);
+  });
+  tabsEl.appendChild(btn);
+});
+
+/* ════════════════════════════════════════
+   CHECKLIST VIEW
+════════════════════════════════════════ */
+function renderChecklist(){
+  const view=document.getElementById('view-checklist');
+  view.innerHTML='';
+  DAYS.slice(1).forEach(day=>{
+    const places=day.places;
+    const doneCount=places.filter(p=>clChecked[day.id+'_'+p.name]).length;
+    const pct=places.length?Math.round(doneCount/places.length*100):0;
+
+    const block=document.createElement('div');
+    block.className='cl-day';
+
+    // Day header
+    const dh=document.createElement('div');
+    dh.className='cl-day-header';
+    dh.style.background=day.color;
+    dh.innerHTML=`<span>${day.label}</span><span style="font-size:12px;font-weight:400">${day.title}</span><span class="cl-day-right">${doneCount}/${places.length} ✓</span>`;
+    block.appendChild(dh);
+
+    // Progress
+    const prog=document.createElement('div');prog.className='cl-progress';
+    const bar=document.createElement('div');bar.className='cl-progress-bar';
+    bar.style.background=day.color;bar.style.width=pct+'%';
+    prog.appendChild(bar);block.appendChild(prog);
+
+    // Route
+    if(day.route){
+      const rt=document.createElement('div');rt.className='cl-route';
+      rt.innerHTML=`<div class="cl-route-title">🚇 交通路线</div>`+
+        day.route.map(r=>`<div>${r.icon} ${r.text}</div>`).join('');
+      block.appendChild(rt);
+    }
+
+    // Items
+    const items=document.createElement('div');items.className='cl-items';
+    places.forEach(p=>{
+      const key=day.id+'_'+p.name;
+      const done=!!clChecked[key];
+      const emoji=CAT_EMOJI[p.cat]||'📍';
+      const item=document.createElement('div');
+      item.className='cl-item'+(done?' done':'');
+      item.innerHTML=`
+        <div class="cl-checkbox">${done?'✓':''}</div>
+        <div class="cl-item-emoji">${emoji}</div>
+        <div class="cl-item-body">
+          <div class="cl-item-name">${p.name}</div>
+          <div class="cl-item-sub">${p.cat} · ${p.sub}</div>
+          ${p.note?`<div class="cl-item-note">${p.note}</div>`:''}
+        </div>
+      `;
+      item.addEventListener('click',()=>{
+        clChecked[key]=!clChecked[key];
+        saveChecked('cl',clChecked);
+        renderChecklist();
+      });
+      items.appendChild(item);
+    });
+    block.appendChild(items);
+    view.appendChild(block);
+  });
+}
+
+/* ════════════════════════════════════════
+   OPTIONAL VIEW
+════════════════════════════════════════ */
+function renderOptional(){
+  const view=document.getElementById('view-optional');
+  view.innerHTML='';
+
+  const hdr=document.createElement('div');hdr.className='opt-header';hdr.textContent='🍴 自选美食 & 地点';
+  view.appendChild(hdr);
+  const sub=document.createElement('div');sub.className='opt-sub';
+  sub.textContent='以下全部为自选，去了打勾，没去也没关系。包括你原本清单里所有美食，以及每区的额外推荐。';
+  view.appendChild(sub);
+
+  const grouped={};
+  OPTIONAL.forEach(o=>{ (grouped[o.tag]=grouped[o.tag]||[]).push(o); });
+
+  const tagColors={
+    "用户清单":"#e53935","西门推荐":"#e67e22","信义推荐":"#8e44ad",
+    "中正推荐":"#27ae60","中正/大安推荐":"#27ae60","士林推荐":"#16a085",
+    "板橋推荐":"#2980b9","松山推荐":"#7f8c8d"
+  };
+
+  Object.entries(grouped).forEach(([tag,items])=>{
+    const sh=document.createElement('div');sh.className='opt-section-hdr';sh.textContent=tag;
+    view.appendChild(sh);
+    const color=tagColors[tag]||'#555';
+    items.forEach(o=>{
+      const key='opt_'+o.name;
+      const done=!!optChecked[key];
+      const div=document.createElement('div');div.className='opt-item'+(done?' done':'');
+      div.innerHTML=`
+        <div class="opt-checkbox">${done?'✓':''}</div>
+        <div class="opt-body">
+          <div class="opt-name">${o.name}</div>
+          <div class="opt-meta">${o.area}</div>
+          ${o.note?`<div class="opt-note">${o.note}</div>`:''}
+        </div>
+        <div class="opt-badge" style="background:${color}22;color:${color}">${tag}</div>
+      `;
+      div.addEventListener('click',()=>{
+        optChecked[key]=!optChecked[key];
+        saveChecked('opt',optChecked);
+        renderOptional();
+      });
+      view.appendChild(div);
+    });
+  });
+}
+
+/* ════════════════════════════════════════
+   MODE SWITCH
+════════════════════════════════════════ */
+function switchMode(mode){
+  document.querySelectorAll('.mode-tab').forEach((t,i)=>{
+    const modes=['map','checklist','optional'];
+    t.classList.toggle('active',modes[i]===mode);
+  });
+  document.getElementById('view-map').style.display        = mode==='map'       ?'block':'none';
+  document.getElementById('view-checklist').style.display  = mode==='checklist' ?'block':'none';
+  document.getElementById('view-optional').style.display   = mode==='optional'  ?'block':'none';
+  document.getElementById('fab').style.display             = mode==='map'       ?'flex':'none';
+  if(mode==='checklist') renderChecklist();
+  if(mode==='optional')  renderOptional();
+}
+
+/* ════════════════════════════════════════
+   INIT
+════════════════════════════════════════ */
+renderMapDay(0);
+setTimeout(()=>setSheet(true),500);
+setTimeout(()=>setSheet(false),2200);
+</script>
+</body>
+</html>
