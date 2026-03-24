@@ -250,7 +250,7 @@ const DAYS = [
   { id:0, label:"全部", color:"#555", title:"所有地点", places:[] },
   {
     id:1, label:"Day 1", color:"#e53935", title:"3/25 抵台·寶可夢·西门",
-    breakfast:{ name:"甘美小吃（昆明街）", hours:"07:00–14:30", note:"步行即达！台式早餐，铁板饺子、蛋饼、豆浆，7点就开" },
+    breakfast:{ name:"甘美巷（昆明街）", hours:"07:00–14:30", note:"步行约3分！台式早餐，铁板饺子、蛋饼、豆浆，7点就开" },
     route:[
       { icon:"🏠", text:"民宿昆明街160號 出发" },
       { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
@@ -595,6 +595,7 @@ function renderChecklist(){
     bar.style.background=day.color;bar.style.width=pct+'%';
     prog.appendChild(bar);block.appendChild(prog);
 
+    // Breakfast banner at the bottom only — see below after items
     // Route
     if(day.route){
       const rt=document.createElement('div');rt.className='cl-route';
