@@ -161,6 +161,16 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 }
 .cl-route-title{font-weight:700;color:#e65100;margin-bottom:4px;font-size:13px;}
 
+/* breakfast recommendation */
+.cl-breakfast{
+  margin:10px 0 4px;padding:11px 13px;
+  background:#f3faf3;border-radius:12px;border-left:3px solid #43a047;
+}
+.cl-breakfast-title{font-size:10px;font-weight:700;color:#2e7d32;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
+.cl-breakfast-name{font-size:13px;font-weight:700;color:#1b5e20;margin-bottom:3px;}
+.cl-breakfast-hours{font-size:11px;color:#388e3c;font-weight:500;margin-bottom:3px;}
+.cl-breakfast-note{font-size:11px;color:#555;line-height:1.5;}
+
 /* ── OPTIONAL VIEW ── */
 #view-optional{background:#f5f6fa;padding:0 0 30px;}
 .opt-header{padding:14px 14px 8px;font-size:18px;font-weight:700;color:#222;}
@@ -183,6 +193,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .opt-name{font-size:15px;font-weight:600;color:#111;}
 .opt-meta{font-size:12px;color:#999;margin-top:2px;}
 .opt-note{font-size:13px;color:#888;margin-top:3px;line-height:1.4;}
+.opt-hours{font-size:11px;color:#1a73e8;margin-top:2px;font-weight:500;}
 .opt-emoji{font-size:20px;flex-shrink:0;}
 .opt-badge{font-size:11px;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap;flex-shrink:0;align-self:flex-start;margin-top:3px;}
 
@@ -239,6 +250,7 @@ const DAYS = [
   { id:0, label:"全部", color:"#555", title:"所有地点", places:[] },
   {
     id:1, label:"Day 1", color:"#e53935", title:"3/25 抵台·寶可夢·西门",
+    breakfast:{ name:"甘美小吃（昆明街）", hours:"07:00–14:30", note:"步行即达！台式早餐，铁板饺子、蛋饼、豆浆，7点就开" },
     route:[
       { icon:"🏠", text:"民宿昆明街160號 出发" },
       { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
@@ -256,6 +268,7 @@ const DAYS = [
   },
   {
     id:2, label:"Day 2", color:"#e67e22", title:"3/26 信义区",
+    breakfast:{ name:"珍方早餐（信义区）", hours:"06:30–13:30", note:"信义区人气早餐，台式蛋饼、三明治、豆浆，6:30就开，出发前解决" },
     route:[
       { icon:"🏠", text:"民宿昆明街160號 出发" },
       { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
@@ -272,6 +285,7 @@ const DAYS = [
   },
   {
     id:3, label:"Day 3", color:"#27ae60", title:"3/27 西门+中正",
+    breakfast:{ name:"贳加贳早午餐（中正区）", hours:"07:00–15:00（日休）", note:"中正区隐藏早餐名店，台式蛋饼卷、豆浆，评分4.7，趁早去" },
     route:[
       { icon:"🏠", text:"民宿昆明街160號 出发（步行即达西门区域）" },
       { icon:"🚶", text:"步行约5分 → 萬年大樓 / Animate / 西門紅樓" },
@@ -293,6 +307,7 @@ const DAYS = [
   },
   {
     id:4, label:"Day 4", color:"#8e44ad", title:"3/28 士林+台北站",
+    breakfast:{ name:"All Day Brunch（士林）", hours:"10:00–21:00", note:"士林高人气西式早午餐，评分4.7，故宫路上顺道" },
     route:[
       { icon:"🏠", text:"民宿昆明街160號 出发" },
       { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
@@ -308,11 +323,13 @@ const DAYS = [
       { name:"士林夜市",            cat:"夜市", sub:"士林",   lat:25.0884972, lng:121.5243504, badge:"晚上",    note:"周六人多，建议8点后去", hours:"每天 16:00–00:00", checklist:true },
       { name:"Hobby Off",           cat:"购物", sub:"台北站", lat:25.0474322, lng:121.5162386, badge:"清单",    note:"二手模型宝库", hours:"每天 11:00–22:00", checklist:true },
       { name:"大旺小舖",            cat:"购物", sub:"台北站", lat:25.0502965, lng:121.5154642, badge:"清单",    note:"地下室，miniature天堂", hours:"每天 12:00–22:00", checklist:true },
+      { name:"木棉花門市",           cat:"购物", sub:"台北站", lat:25.050151,  lng:121.5113831, badge:"清单",    note:"台北站地下街Y区，步行即达", hours:"每天 11:00–20:00", checklist:true },
       { name:"先喝道 北車京站店",   cat:"饮料", sub:"台北站", lat:25.0493012, lng:121.5171717, badge:"必打卡！", note:"台北站地下B2", hours:"一–四日 11:00–21:30 · 五六 11:00–22:00", checklist:true },
     ]
   },
   {
     id:5, label:"Day 5", color:"#16a085", title:"3/29 九份",
+    breakfast:{ name:"微光森林 Twilight Cafe（九份）", hours:"09:00–17:00", note:"九份山景咖啡厅，9点开是九份最早的早餐选择之一，到了再吃" },
     route:[
       { icon:"🏠", text:"民宿昆明街160號 出发（建议早出发）" },
       { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
@@ -328,6 +345,7 @@ const DAYS = [
   },
   {
     id:6, label:"Day 6", color:"#2980b9", title:"3/30 板橋+松山",
+    breakfast:{ name:"小潘蛋糕坊（板橋）顺道当早餐", hours:"08:00–20:00", note:"8点开门直冲，买凤梨酥当早餐零食，再吃一顿正式早餐也行" },
     route:[
       { icon:"🏠", text:"民宿昆明街160號 出发" },
       { icon:"🚶", text:"步行约5分 → 西門站（板南线）" },
@@ -344,6 +362,7 @@ const DAYS = [
   },
   {
     id:7, label:"Day 7", color:"#7f8c8d", title:"3/31 回国收尾",
+    breakfast:{ name:"What Day Kitchen 花嘴厨房（西门）", hours:"08:00–19:30", note:"西门步行可达，台式早餐+西式早午餐，最后一天好好吃顿早餐" },
     route:[
       { icon:"🏠", text:"民宿昆明街160號 出发，西门周边最后扫尾" },
       { icon:"🚶", text:"步行即达西门町各店" },
@@ -360,40 +379,39 @@ const DAYS = [
 // optional food list
 const OPTIONAL = [
   // 用户清单（西门/全区域）
-  { name:"西門那煎銅鑼燒", area:"西门", note:"西门名物，铜锣烧现烤", tag:"用户清单" },
-  { name:"萬國滷味",        area:"西门", note:"卤味种类多，宵夜首选", tag:"用户清单" },
-  { name:"萬花小米蛋餅",    area:"西门", note:"早餐/早午餐必吃蛋饼", tag:"用户清单" },
-  { name:"五十嵐",          area:"西门/全区", note:"台湾连锁茶饮，到处有", tag:"用户清单" },
-  { name:"台灣鹽酥鷄 西門", area:"西门", note:"现炸盐酥鸡，夜宵神器", tag:"用户清单" },
-  { name:"赤丸",            area:"寧夏夜市", note:"肉圆 / 赤肉羹名摊", tag:"用户清单" },
-  { name:"宏益水晶餃",      area:"寧夏夜市", note:"Q弹水晶饺，皮薄馅鲜", tag:"用户清单" },
-  { name:"蘋果鷄鹽酥鷄 新北板橋", area:"板橋", note:"板桥人气盐酥鸡", tag:"用户清单" },
+  { name:"西門那煎銅鑼燒", area:"西门 · 萬年大樓B1", note:"西门名物，铜锣烧现烤", hours:"一–四 12:00–20:00 · 五六 12:00–21:00 · 日 12:00–20:00", tag:"用户清单" },
+  { name:"萬國滷味",        area:"西门 · 漢中街", note:"⚠️ 周二公休 · 卤味种类多，宵夜首选", hours:"⚠️ 周二公休 · 一三四五 14:30–23:30 · 六日 12:30–23:30", tag:"用户清单" },
+  { name:"萬花小米蛋餅",    area:"西门 · 康定路", note:"早餐/早午餐必吃蛋饼，卖完即止", hours:"⚠️ 周一六公休 · 二–五 06:30–12:30", tag:"用户清单" },
+  { name:"台灣鹽酥鷄 西門", area:"西门 · 中華路", note:"现炸盐酥鸡，深夜营业", hours:"每天 10:30–04:00", tag:"用户清单" },
+  { name:"赤丸",            area:"寧夏夜市", note:"肉圆 / 赤肉羹名摊", hours:"每天 17:00–23:30（随夜市）", tag:"用户清单" },
+  { name:"宏益水晶餃",      area:"寧夏夜市", note:"Q弹水晶饺，皮薄馅鲜", hours:"每天 17:00–23:30（随夜市）", tag:"用户清单" },
+  { name:"蘋果鷄鹽酥鷄 新北板橋", area:"板橋", note:"板桥人气盐酥鸡", hours:"营业时间不稳定，建议傍晚后前往", tag:"用户清单" },
   // 西门推荐
-  { name:"峰圓甜不辣",      area:"西门", note:"老牌关东煮，汤头浓郁", tag:"西门推荐" },
-  { name:"老天禄滷味",      area:"西门", note:"老字号卤味，人气极旺", tag:"西门推荐" },
-  { name:"咔滋脆皮鷄排",    area:"西门", note:"现炸大鸡排，酥脆多汁", tag:"西门推荐" },
-  { name:"洪瑞珍三明治",    area:"西门", note:"台式奶油三明治，经典简单", tag:"西门推荐" },
-  { name:"蜂大咖啡",        area:"西门", note:"老台北咖啡馆，台式蛋糕配咖啡", tag:"西门推荐" },
-  { name:"丸林鲁肉饭",      area:"西门附近", note:"台湾经典鲁肉饭", tag:"西门推荐" },
+  { name:"峰圓甜不辣",      area:"西门 · 西寧路", note:"老牌关东煮，汤头浓郁", hours:"每天 10:45–22:00", tag:"西门推荐" },
+  { name:"老天禄滷味",      area:"西门 · 武昌街", note:"老字号卤味，人气极旺", hours:"一 10:00–22:00 · ⚠️ 二三 11:00–20:00 · 四–日 10:00–22:00", tag:"西门推荐" },
+  { name:"咔滋脆皮鷄排",    area:"西门 · 內江街", note:"⚠️ 周一公休 · 现炸大鸡排", hours:"⚠️ 周一公休 · 二–日 15:00–00:30", tag:"西门推荐" },
+  { name:"洪瑞珍三明治",    area:"西门 · 峨眉街", note:"台式奶油三明治，经典简单", hours:"营业时间不稳定，约 10:00–20:00", tag:"西门推荐" },
+  { name:"蜂大咖啡",        area:"西门 · 成都路", note:"1956年老店，台式蛋糕配咖啡", hours:"每天 08:00–21:30", tag:"西门推荐" },
+  { name:"丸林鲁肉饭",      area:"中山区 · 民族東路", note:"台湾经典鲁肉饭", hours:"每天 10:30–20:30", tag:"西门推荐" },
   // 信义推荐
-  { name:"Ice Monster 芒果冰", area:"信义", note:"芒果雪花冰名店", tag:"信义推荐" },
-  { name:"欣叶台菜（信义）",   area:"信义", note:"台湾传统菜，适合正餐", tag:"信义推荐" },
-  { name:"犁记饼店",           area:"信义", note:"古早味糕饼，可顺购伴手礼", tag:"信义推荐" },
+  { name:"Ice Monster 芒果冰", area:"信义区", note:"芒果雪花冰名店", hours:"每天 11:00–22:00（旺季延长）", tag:"信义推荐" },
+  { name:"欣叶台菜（信义）",   area:"信义 · 新光三越A9 8F", note:"⚠️ 周二公休 · 台湾传统菜，适合正餐", hours:"⚠️ 周二公休 · 一三–日 11:00–14:30, 17:00–21:30", tag:"信义推荐" },
+  { name:"犁记饼店",           area:"信义区", note:"古早味糕饼，可顺购伴手礼", hours:"每天 09:00–21:00", tag:"信义推荐" },
   // 中正推荐
-  { name:"杭州小笼湯包",    area:"中正", note:"平价小笼包，皮薄汤多", tag:"中正推荐" },
-  { name:"师大夜市",        area:"大安", note:"文青风夜市，宵夜好去处", tag:"中正/大安推荐" },
-  { name:"通化夜市",        area:"大安", note:"距中正不远，宵夜选择", tag:"中正/大安推荐" },
+  { name:"杭州小笼湯包",    area:"大安 · 杭州南路", note:"平价小笼包，皮薄汤多", hours:"每天 11:00–14:30, 16:30–21:00", tag:"中正推荐" },
+  { name:"师大夜市",        area:"大安 · 師大路", note:"文青风夜市，宵夜好去处", hours:"每天 16:00–23:00", tag:"中正/大安推荐" },
+  { name:"通化夜市",        area:"大安 · 臨江街", note:"距中正不远，宵夜选择", hours:"每天 18:00–00:00", tag:"中正/大安推荐" },
   // 士林推荐
-  { name:"故宮晶華",        area:"士林", note:"故宫内高档台菜，适合午餐", tag:"士林推荐" },
-  { name:"基河路麻辣鍋",    area:"士林", note:"士林本地人爱去的麻辣锅", tag:"士林推荐" },
-  { name:"文林路排骨饭",    area:"士林", note:"道地台湾卤排骨饭，实惠", tag:"士林推荐" },
+  { name:"故宮晶華",        area:"士林 · 故宫内", note:"⚠️ 周一公休 · 高档台菜，适合午餐", hours:"⚠️ 周一公休 · 二–五 11:30–14:30, 17:00–20:00 · 六日 11:00–15:00, 17:00–20:00", tag:"士林推荐" },
+  { name:"佳貝幸福鍋物",    area:"士林 · 大北路", note:"士林本地人爱去的火锅，评分极高", hours:"⚠️ 周二公休 · 一三–五 12:00–15:00, 17:00–22:00 · 六日 12:00–15:00, 17:00–23:00", tag:"士林推荐" },
+  { name:"文林路排骨饭",    area:"士林 · 文林路", note:"道地台湾卤排骨饭，实惠", hours:"一–六 11:00–14:00, 17:00–20:00 · 日 11:00–14:00", tag:"士林推荐" },
   // 板橋推荐
-  { name:"阿婆寿司",        area:"板橋", note:"老字号平价寿司，新鲜实惠", tag:"板橋推荐" },
-  { name:"江子翠排骨酥麵",  area:"板橋", note:"板桥本地人常去，汤头鲜甜", tag:"板橋推荐" },
-  { name:"南雅夜市 / 湳雅夜市", area:"板橋", note:"板桥在地夜市，小吃密度高", tag:"板橋推荐" },
+  { name:"阿婆寿司",        area:"鶯歌 · 中正一路", note:"老字号平价寿司，24小时营业", hours:"24小时营业", tag:"板橋推荐" },
+  { name:"江子翠排骨酥麵",  area:"板橋", note:"板桥本地人常去，汤头鲜甜", hours:"一–六 11:30–20:00 · ⚠️ 日公休", tag:"板橋推荐" },
+  { name:"南雅夜市",        area:"板橋 · 南雅東路", note:"板桥在地夜市，小吃密度高", hours:"每天 17:00–00:00", tag:"板橋推荐" },
   // 松山推荐
-  { name:"繞河街胡椒饼",    area:"松山", note:"现烤胡椒猪肉饼，排队也值", tag:"松山推荐" },
-  { name:"富锦街咖啡区",    area:"松山", note:"文青咖啡街，下午茶好去处", tag:"松山推荐" },
+  { name:"繞河街胡椒饼",    area:"松山 · 繞河夜市入口", note:"现烤胡椒猪肉饼，排队也值", hours:"随繞河夜市 17:00–00:00", tag:"松山推荐" },
+  { name:"富锦树咖啡",      area:"松山 · 富錦街353號", note:"文青咖啡，下午茶好去处", hours:"每天 09:00–18:00", tag:"松山推荐" },
 ];
 
 const CAT_EMOJI = { "美食":"🍜","饮料":"🧃","购物":"🛍️","景点":"📍","夜市":"🌙","推荐餐":"⭐" };
@@ -611,6 +629,20 @@ function renderChecklist(){
       items.appendChild(item);
     });
     block.appendChild(items);
+
+    // Breakfast recommendation at the bottom
+    if(day.breakfast){
+      const bf=document.createElement('div');
+      bf.className='cl-breakfast';
+      bf.innerHTML=`
+        <div class="cl-breakfast-title">🍳 今日早餐推荐</div>
+        <div class="cl-breakfast-name">${day.breakfast.name}</div>
+        <div class="cl-breakfast-hours">🕐 ${day.breakfast.hours}</div>
+        <div class="cl-breakfast-note">${day.breakfast.note}</div>
+      `;
+      block.appendChild(bf);
+    }
+
     view.appendChild(block);
   });
 }
@@ -650,6 +682,7 @@ function renderOptional(){
         <div class="opt-body">
           <div class="opt-name">${o.name}</div>
           <div class="opt-meta">${o.area}</div>
+          ${o.hours?`<div class="opt-hours">🕐 ${o.hours}</div>`:''}
           ${o.note?`<div class="opt-note">${o.note}</div>`:''}
         </div>
         <div class="opt-badge" style="background:${color}22;color:${color}">${tag}</div>
